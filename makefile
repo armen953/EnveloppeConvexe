@@ -5,7 +5,7 @@ LIBS=-lglut -lGLU -lGL -lm -L/usr/X11/lib -lXext -lXmu -lXi -lX11 -std=c++98
 
 CC=g++
 EXEC=convexe # nom de l'executable
-SRC= dPoint.cpp ColorPoint.cpp OpenGL.cpp ConvexeHullAlgorithms.cpp Utility.cpp
+SRC= dPoint.cpp ColorPoint.cpp OpenGL.cpp ConvexeHullAlgorithms.cpp Utility.cpp  #les differents fichier source dont le programme a besoin
 OBJ= $(SRC:.c=.o)
 CXXFLAGS=$(HDR_PATHS) -Wno-deprecated 
 

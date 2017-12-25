@@ -94,28 +94,3 @@ int ConvexeHullAlgorithms::crossProduct(ColorPoint p1, ColorPoint p2, ColorPoint
   // cout << res << endl; // for debug
   return res;
 }
-
-
-
-
-// int distance(ColorPoint a, ColorPoint b, ColorPoint c)
-// {
-//   int y1 = a.getY() - b.getY();
-//   int y2 = a.getY() - c.getY();
-//   int x1 = a.getX() - b.getX();
-//   int x2 = a.getX() - c.getX();
-  
-//   int nb1 = y1 * y1 + x1 * x1;
-//   int nb2 = y2 * y2 + x2 * x2;
-  
-//   if (nb1 == nb2) 
-//   {
-//     return 0;
-//   }else if(nb1 < nb2)
-//   {
-//     return -1;
-//   }else if(nb1 > nb2)
-//   {
-//     return 1;
-//   }
-// }
