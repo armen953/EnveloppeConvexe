@@ -1,29 +1,24 @@
 LIB_PATHS= -L/usr/X11R6/lib -L/usr/lib
 HDR_PATHS= -I/usr/X11R6/include
-LIBS=-lglut -lGLU -lGL -lm -L/usr/X11/lib -lXext -lXmu -lXi -lX11 -g-std=c++98
+LIBS=-lglut -lGLU -lGL -lm -L/usr/X11/lib -lXext -lXmu -lXi -lX11 -std=c++98
 
-CFLAGS=$(HDR_PATHS) -Wno-deprecated
+
 CC=g++
-#CC=gcc
+EXEC=convexe # nom de l'executable
+SRC= dPoint.cpp ColorPoint.cpp OpenGL.cpp ConvexeHullAlgorithms.cpp Utility.cpp
+OBJ= $(SRC:.c=.o)
+CXXFLAGS=$(HDR_PATHS) -Wno-deprecated 
 
-ok : OpenGL 
+all: $(EXEC)
 
-.cc.o:
-	$(CC) -c -O3 $(CFLAGS) $<
+$(EXEC): $(OBJ)
+	$(CC) -o $@ $^ $(LIB_PATHS) $(LIBS) 
 
-OBJECTS_main = OpenGL.o  
-
-
-OpenGL:  $(OBJECTS_main)
-	$(CC) $(OBJECTS_main) -o OpenGL $(LIB_PATHS) $(LIBS)
-
-
-indenter :
-	for i in *.h *.cpp do sed -i~ -f sed.sed  $i done
-	indent  *.h *.cpp
+%.o: %.cpp
+	$(C) -o $@ -c $< 
 
 clean :
-	rm -fr *.o
+	rm -rf *.o
 	touch *.cc #*.h
 
 delete :
