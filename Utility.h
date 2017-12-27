@@ -1,11 +1,12 @@
 #ifndef _Utility_
 #define _Utility_
 
-#include <math.h>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <math.h>
+#include <stdlib.h>
 #include "ColorPoint.h"
 
 namespace Utility
@@ -17,7 +18,7 @@ namespace Utility
    *  ColorPoint p2
    * @return: La distance entre les 2 points
   */
-  int distance(ColorPoint p1, ColorPoint p2);
+  int distance2D(ColorPoint p1, ColorPoint p2);
 
   /** 
      * @description: 
@@ -30,9 +31,38 @@ namespace Utility
      *  ColorPoint p2: Le point qui sert de reference
      *  ColorPoint P3: Le point a verifier
      * @return:
-     *  le resultat du produit vectoriel
+     *  int: le resultat du produit vectoriel
     */
   int crossProduct(ColorPoint p1, ColorPoint p2, ColorPoint p3);
+
+  /**
+   * @description: Genere un nobre aleatoire entre 2 nombres entiers
+   * @params:
+   *  int min: le mininumm du nombre aléatoire
+   *  int max: le maximum du nombre aléatoire 
+   * @return:
+   *  int: le nombre aleatoire généré
+  */
+  int getIntRandomNb(int min, int max);
+
+  /**
+   * @description: Genere un nobre aleatoire entre 2 nombres decimal
+   * @params: 
+   *  float min: le mininumm du nombre aléatoire
+   *  float max: le maximum du nombre aléatoire 
+   * @return: 
+   *  float: le nombre aleatoire généré
+  */
+  float getFlatRandNb(float min, float max);
+
+
+  /**
+   * @description: Affiche tous les elements d'un taleau de point
+   * @params: 
+   *  vector<ColorPoint> points: liste des points a afficher
+   * @return: void
+  */
+  void printArrayPoints(std::vector<ColorPoint> points);
 
   /**
    * @description: Ecrit dans un fichier les points passé en parametre (crée un fichier convexePoints.txt)
@@ -49,6 +79,7 @@ namespace Utility
    * @return: void
   */
   void writePointsFormatedForGeogebra(std::vector<ColorPoint> points);
+
 };
 
 #endif

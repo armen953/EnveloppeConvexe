@@ -1,10 +1,5 @@
 #include "ConvexeHullAlgorithms.h"
 
-int distance2D(ColorPoint p1, ColorPoint p2)
-{
-  return sqrt( pow((p2.getX() - p1.getX()),2) + pow((p2.getY() - p1.getY()),2)  );
-}
-
 vector<ColorPoint> ConvexeHullAlgorithms::Jarvis(vector<ColorPoint> pointList)
 {
   vector<ColorPoint> result;
@@ -48,29 +43,29 @@ vector<ColorPoint> ConvexeHullAlgorithms::Jarvis(vector<ColorPoint> pointList)
         continue;
       }
 
-      if (crossProduct(pointList.at(pi), pointList.at(i), pointList.at(qi)) < 0)
+      if (Utility::crossProduct(pointList.at(pi), pointList.at(i), pointList.at(qi)) < 0)
       {
         qi = i;
-        // faire un cout pout tester
       }
-      if (crossProduct(pointList.at(pi), pointList.at(i), pointList.at(qi)) == 0)
+      if (Utility::crossProduct(pointList.at(pi), pointList.at(i), pointList.at(qi)) == 0) // les point sont colinéaires
       {
-        // FAIRE l'algo a la main et tester sur geogebra
+        // Pour debug
         cout << endl;
         cout << "Begin" << endl;
         cout << pointList.at(pi) << endl;
         cout << pointList.at(i) << endl;
         cout << pointList.at(qi) << endl;
-        cout << " distance entre : " << pointList.at(pi) << " (pi) et " <<  pointList.at(i) << " (i) est de " << distance2D(pointList.at(pi),pointList.at(i)) << endl;
-        cout << " distance entre : " << pointList.at(pi) << " (pi) et " <<  pointList.at(qi) << " (qi) est de " << distance2D(pointList.at(pi),pointList.at(qi)) << endl;
+        cout << " distance entre : " << pointList.at(pi) << " (pi) et " <<  pointList.at(i) << " (i) est de " << Utility::distance2D(pointList.at(pi),pointList.at(i)) << endl;
+        cout << " distance entre : " << pointList.at(pi) << " (pi) et " <<  pointList.at(qi) << " (qi) est de " << Utility::distance2D(pointList.at(pi),pointList.at(qi)) << endl;
         cout << "END" << endl;
-        if (distance2D(pointList.at(pi),pointList.at(i)) > distance2D(pointList.at(pi),pointList.at(qi)))
+        if (Utility::distance2D(pointList.at(pi),pointList.at(i)) > Utility::distance2D(pointList.at(pi),pointList.at(qi))) // on prend le point qui est le plus loin du point de rotation
         {
           qi = i;
         }
 
       }
     }
+    
     if (&pointList.at(qi) != &firstPts)
     {
       cout << "le point a ete ajouté : " << pointList.at(qi) << endl;
@@ -81,16 +76,4 @@ vector<ColorPoint> ConvexeHullAlgorithms::Jarvis(vector<ColorPoint> pointList)
   } while (pi != startIndex);
 
   return result;
-}
-
-int ConvexeHullAlgorithms::crossProduct(ColorPoint p1, ColorPoint p2, ColorPoint p3)
-{
-  int x1 = p1.getX() - p2.getX();
-  int x2 = p1.getX() - p3.getX();
-  int y1 = p1.getY() - p2.getY();
-  int y2 = p1.getY() - p3.getY();
-
-  int res = y2 * x1 - y1 * x2;
-  // cout << res << endl; // for debug
-  return res;
 }

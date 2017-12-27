@@ -188,6 +188,7 @@ void trace_segment(ColorPoint p1, ColorPoint p2, double red, double green, doubl
 //fonction ou les objets sont a definir
 void init()
 {
+  srand(time(NULL));
 
   // list.push_back(ColorPoint(5., 4.));
   // list.push_back(ColorPoint(17., 12.));
@@ -197,7 +198,7 @@ void init()
   // list.push_back(ColorPoint(3., 16.));
 
 
-      // fichier 2 sous geogebra
+       /********* fichier 2 sous geogebra **********/
   // list.push_back(ColorPoint(2.98, 5.89));
   // list.push_back(ColorPoint(6.73, 2.91));
   // list.push_back(ColorPoint(-3.05, 5.49));
@@ -214,7 +215,7 @@ void init()
 
 
 
-    // cas de points colinaires (fichier 6 sous geo)
+     /********* cas de points colinaires (fichier 6 sous geo) **********/
   // list.push_back(ColorPoint(2.,1.));
   // list.push_back(ColorPoint(1.,1.));
   // list.push_back(ColorPoint(5.,3.));
@@ -223,7 +224,7 @@ void init()
   // list.push_back(ColorPoint(3.,1.));
 
 
-    // test (fichier 1 sous geo)
+    /*********  test (fichier 1 sous geo) **********/
   // list.push_back(ColorPoint(2,0));
   // list.push_back(ColorPoint(6,0));
   // list.push_back(ColorPoint(3,0));
@@ -239,17 +240,17 @@ void init()
   // list.push_back(ColorPoint(2.,3.));
 
 
-    // fichier 4 geogebra
-  list.push_back(ColorPoint(-1,2));
-  list.push_back(ColorPoint(2,1));
-  list.push_back(ColorPoint(1,0));
-  list.push_back(ColorPoint(3,-1));
-  list.push_back(ColorPoint(1,-1));
-  list.push_back(ColorPoint(-1,1));
-  list.push_back(ColorPoint(-2,0)); // a ajouter pour fichier 4B_StartXMeme geogebra
-  list.push_back(ColorPoint(-2,-1));
-  list.push_back(ColorPoint(-1,-2));
-  list.push_back(ColorPoint(-1,-1));
+    /********* fichier 4 geogebra **********/
+  // list.push_back(ColorPoint(-1,2));
+  // list.push_back(ColorPoint(2,1));
+  // list.push_back(ColorPoint(1,0));
+  // list.push_back(ColorPoint(3,-1));
+  // list.push_back(ColorPoint(1,-1));
+  // list.push_back(ColorPoint(-1,1));
+  // list.push_back(ColorPoint(-2,0)); // a ajouter pour fichier 4B_StartXMeme geogebra
+  // list.push_back(ColorPoint(-2,-1));
+  // list.push_back(ColorPoint(-1,-2));
+  // list.push_back(ColorPoint(-1,-1));
 
   // list.push_back(ColorPoint(2,0));
   // list.push_back(ColorPoint(6,0));
@@ -257,6 +258,15 @@ void init()
   // list.push_back(ColorPoint(2.,1.));
   // list.push_back(ColorPoint(3,4));
 
+  float minCoords = -100.; //-50.; //-25.5;
+  float maxCoords = 100.; //50.; //25.7;
+  // 25
+  for (int i = 0; i < 50; i++)
+  {
+    list.push_back(ColorPoint(Utility::getFlatRandNb(minCoords,maxCoords), Utility::getFlatRandNb(minCoords,maxCoords)));
+  }
+
+  
   if (list.size() > 0)
   {
     convexe = ConvexeHullAlgorithms::Jarvis(list);
@@ -269,7 +279,7 @@ void init()
     cout << convexe.at(i) << endl;
   }
 
-  Utility::writePointsFormatedForGeogebra(convexe);
+  Utility::writeConvexePointsToFIle(list);
 
 
   // double xO=0.,yO=0.,xI=1.,yI=0.,xJ=0.,yJ=1.;

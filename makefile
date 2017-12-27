@@ -17,6 +17,9 @@ $(EXEC): $(OBJ)
 %.o: %.cpp
 	$(C) -o $@ -c $< 
 
+run: $(EXEC)
+	./$(EXEC)
+
 clean :
 	rm -rf *.o
 	touch *.cc #*.h

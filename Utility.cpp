@@ -1,8 +1,8 @@
 #include "Utility.h"
 
-int Utility::distance(ColorPoint p1, ColorPoint p2)
+int  Utility::distance2D(ColorPoint p1, ColorPoint p2)
 {
-  return sqrt(pow((p2.getX() - p1.getX()), 2) + pow((p2.getY() - p1.getY()), 2));
+  return sqrt( pow((p2.getX() - p1.getX()),2) + pow((p2.getY() - p1.getY()),2)  );
 }
 
 int Utility::crossProduct(ColorPoint p1, ColorPoint p2, ColorPoint p3)
@@ -17,23 +17,57 @@ int Utility::crossProduct(ColorPoint p1, ColorPoint p2, ColorPoint p3)
   return res;
 }
 
+int Utility::getIntRandomNb(int min, int max)
+{
+  return rand() % (max - min) + min;
+}
+
+
+float Utility::getFlatRandNb(float min, float max)
+{
+  return (max - min) * ((((float)rand()) / (float)RAND_MAX)) + min;
+}
+
+void Utility::printArrayPoints(std::vector<ColorPoint> points)
+{
+  for (int i = 0; i < points.size(); i++)
+  {
+    std::cout << points.at(i) << std::endl;
+  }
+}
+
 void Utility::writeConvexePointsToFIle(std::vector<ColorPoint> points)
 {
   std::ofstream myfile;
   myfile.open("convexePoints.txt");
-  myfile << "Les points qui appartiennent a l'enveloppe convexe :" << std::endl;
-  for (int i = 0; i < points.size(); i++)
+  if(!myfile.fail())
   {
-    myfile << "#" << i << " : " << points.at(i) << std::endl;
+    myfile << "Les points qui appartiennent a l'enveloppe convexe :" << std::endl;
+    for (int i = 0; i < points.size(); i++)
+    {
+      myfile << "#" << i << " : " << points.at(i) << std::endl;
+    }
+  }else
+  {
+    std::cerr << "Erreur lors de l'ouverture du fichier" << std::endl;
   }
+  myfile.close();
 }
 
 void Utility::writePointsFormatedForGeogebra(std::vector<ColorPoint> points)
 {
   std::ofstream myfile;
   myfile.open("geo.txt");
-  for (int i = 0; i < points.size(); i++)
+  if(!myfile.fail())
   {
-    myfile << "(" << points.at(i).getX() << "," << points.at(i).getY() << ")" << std::endl;
+    for (int i = 0; i < points.size(); i++)
+    {
+      myfile << "(" << points.at(i).getX() << "," << points.at(i).getY() << ")" << std::endl;
+    }
+  }else
+  {
+    std::cerr << "Erreur lors de l'ouverture du fichier" << std::endl;
   }
+  myfile.close();
 }
+ 
