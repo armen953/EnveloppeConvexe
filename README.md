@@ -6,8 +6,7 @@ Projet de Math 3A
 ### Installer OpenGl
 - [ ] mettre les libs a installer
 
-Apres l'instalation de OpenGl il suffit exectuter le commande **make** pour compiler le programme ou **make run** pour compiler et lancer directement le programme
-Ensuite on peut lancer le programme en fesant **./convexe** ou **make run**
+Après l'instalation de OpenGl il suffit exécuter le commande **make** pour compiler le programme ou **make run** pour compiler et lancer directement le programme, ou on peut lancer le programme après avoir compiler en exécutant **./convexe**
 
 
 # Todo
