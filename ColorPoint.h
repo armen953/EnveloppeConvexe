@@ -15,7 +15,7 @@ private:
 public:
   ColorPoint() {}
   // Constructeur avec des parametres par defaut
-  ColorPoint(double _x, double _y, double _red = 0.0, double _green = 0.0, double _blue = 0.0, double _size = 10.0);
+  ColorPoint(double _x, double _y, double _red = 0.0, double _green = 0.0, double _blue = 0.0, double _size = 8.0);
   /*** Getters ***/
   double getRed();
   double getGreen();
@@ -31,5 +31,6 @@ public:
 std::ostream &operator<<(std::ostream &os, ColorPoint cp);
 bool operator==(ColorPoint p1, ColorPoint p2);
 bool operator!=(ColorPoint p1, ColorPoint p2);
+bool operator<(ColorPoint p1, ColorPoint p2);
 
 #endif

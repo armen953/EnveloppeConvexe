@@ -62,11 +62,10 @@ vector<ColorPoint> ConvexeHullAlgorithms::Jarvis(vector<ColorPoint> pointList)
         {
           qi = i;
         }
-
       }
     }
     
-    if (&pointList.at(qi) != &firstPts)
+    if (pointList.at(qi) != firstPts)
     {
       cout << "le point a ete ajouté : " << pointList.at(qi) << endl;
       result.push_back(pointList.at(qi));

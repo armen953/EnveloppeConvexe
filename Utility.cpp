@@ -7,21 +7,13 @@ int  Utility::distance2D(ColorPoint p1, ColorPoint p2)
 
 int Utility::crossProduct(ColorPoint p1, ColorPoint p2, ColorPoint p3)
 {
-  int x1 = p1.getX() - p2.getX();
-  int x2 = p1.getX() - p3.getX();
-  int y1 = p1.getY() - p2.getY();
-  int y2 = p1.getY() - p3.getY();
-
-  int res = y2 * x1 - y1 * x2;
-  // cout << res << endl; // for debug
-  return res;
+  return (p2.getY() - p1.getY()) * (p3.getX() - p2.getX()) - (p2.getX() - p1.getX()) * (p3.getY() - p2.getY());
 }
 
 int Utility::getIntRandomNb(int min, int max)
 {
   return rand() % (max - min) + min;
 }
-
 
 float Utility::getFlatRandNb(float min, float max)
 {
@@ -43,7 +35,7 @@ void Utility::writeConvexePointsToFIle(std::vector<ColorPoint> points)
   if(!myfile.fail())
   {
     myfile << "Les points qui appartiennent a l'enveloppe convexe :" << std::endl;
-    for (int i = 0; i < points.size(); i++)
+    for (int i = 0; i < points.size() -1; i++)
     {
       myfile << "#" << i << " : " << points.at(i) << std::endl;
     }
@@ -71,3 +63,19 @@ void Utility::writePointsFormatedForGeogebra(std::vector<ColorPoint> points)
   myfile.close();
 }
  
+void Utility::debugPoints(std::vector<ColorPoint> points)
+{
+  std::ofstream myfile;
+  myfile.open("debug.txt");
+  if(!myfile.fail())
+  {
+    for (int i = 0; i < points.size(); i++)
+    {
+      myfile << "list.push_back(ColorPoint("<< points.at(i).getX() << "," << points.at(i).getY() << "));" << std::endl;
+    }
+  }else
+  {
+    std::cerr << "Erreur lors de l'ouverture du fichier" << std::endl;
+  }
+  myfile.close();
+}

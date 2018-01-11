@@ -80,6 +80,13 @@ namespace Utility
   */
   void writePointsFormatedForGeogebra(std::vector<ColorPoint> points);
 
+  /**
+   * @description: Ecrit dans un fichier en mettant en forme pour aciliter la reprise des points aléatoirement généré
+   * @params: 
+   *  vector<ColorPoint> points: Les point a ecrire dans le fichier
+   * @return: void
+  */    
+  void debugPoints(std::vector<ColorPoint> points);
 };
 
 #endif

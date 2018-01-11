@@ -61,3 +61,8 @@ bool operator!=(ColorPoint p1, ColorPoint p2)
 {
   return ((p1.getX() != p2.getX()) && (p1.getY() != p2.getY()));
 }
+
+bool operator<(ColorPoint p1, ColorPoint p2)
+{
+  return (p1.getY() != p2.getY()) ? (p1.getY() < p2.getY()) : (p1.getX() < p2.getX());
+}

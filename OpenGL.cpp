@@ -23,13 +23,13 @@
 using namespace std;
 #define Pi 3.141592654
 
-double Scal = 6; //36;
+double Scal = 1; //36;
 
 double trX = 0.0, trY = 0.0, dist = 0.; //,trZ=0.0
 char presse;
 int anglex, angley, x, y, xold, yold;
 
-vector<ColorPoint> list; // liste qui va contenir tous les point
+vector<ColorPoint> list;    // liste qui va contenir tous les point
 vector<ColorPoint> convexe; // liste qui va contenir tous les point appartenant a l'enveloppe convexe
 
 /* Prototype des fonctions */
@@ -40,6 +40,9 @@ void idle();
 void mouse(int bouton, int etat, int x, int y);
 void mousemotion(int x, int y);
 
+void ChoixSaisiePoint();
+void initWithRandomPoints();
+void initWithInput(int nbPoints);
 
 //-************************************************************
 //
@@ -50,6 +53,11 @@ void init();
 
 int main(int argc, char **argv)
 {
+  srand(time(NULL)); // seed le générateur de nombre aleatoire
+
+  ChoixSaisiePoint();  // Afficher le menu
+
+
   /* initialisation de glut et creation de la fenetre */
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
@@ -136,8 +144,6 @@ void mouse(int button, int state, int x, int y)
     presse = 1; /* le booleen presse passe a 1 (vrai) */
     xold = x;   /* on sauvegarde la position de la souris */
     yold = y;
-
-    cout << "click" << endl;
   }
   /* si on relache le bouton gauche */
   if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
@@ -188,7 +194,6 @@ void trace_segment(ColorPoint p1, ColorPoint p2, double red, double green, doubl
 //fonction ou les objets sont a definir
 void init()
 {
-  srand(time(NULL));
 
   // list.push_back(ColorPoint(5., 4.));
   // list.push_back(ColorPoint(17., 12.));
@@ -197,8 +202,7 @@ void init()
   // list.push_back(ColorPoint(11., 22.));
   // list.push_back(ColorPoint(3., 16.));
 
-
-       /********* fichier 2 sous geogebra **********/
+  /********* fichier 2 sous geogebra **********/
   // list.push_back(ColorPoint(2.98, 5.89));
   // list.push_back(ColorPoint(6.73, 2.91));
   // list.push_back(ColorPoint(-3.05, 5.49));
@@ -213,9 +217,7 @@ void init()
   // list.push_back(ColorPoint(7.82, -1.35));
   // list.push_back(ColorPoint(2.68, -4.05));
 
-
-
-     /********* cas de points colinaires (fichier 6 sous geo) **********/
+  /********* cas de points colinaires (fichier 6 sous geo) **********/
   // list.push_back(ColorPoint(2.,1.));
   // list.push_back(ColorPoint(1.,1.));
   // list.push_back(ColorPoint(5.,3.));
@@ -223,15 +225,11 @@ void init()
   // list.push_back(ColorPoint(5.,1.));
   // list.push_back(ColorPoint(3.,1.));
 
-
-    /*********  test (fichier 1 sous geo) **********/
+  /*********  test (fichier 1 sous geo) **********/
   // list.push_back(ColorPoint(2,0));
   // list.push_back(ColorPoint(6,0));
   // list.push_back(ColorPoint(3,0));
   // list.push_back(ColorPoint(3,4));
-
-
-
 
   /********* fait BUGER SANS RAISON **********/
   // list.push_back(ColorPoint(1.,1.));
@@ -239,8 +237,7 @@ void init()
   // list.push_back(ColorPoint(3.,1.));
   // list.push_back(ColorPoint(2.,3.));
 
-
-    /********* fichier 4 geogebra **********/
+  /********* fichier 4 geogebra **********/
   // list.push_back(ColorPoint(-1,2));
   // list.push_back(ColorPoint(2,1));
   // list.push_back(ColorPoint(1,0));
@@ -258,19 +255,21 @@ void init()
   // list.push_back(ColorPoint(2.,1.));
   // list.push_back(ColorPoint(3,4));
 
-  float minCoords = -100.; //-50.; //-25.5;
-  float maxCoords = 100.; //50.; //25.7;
-  // 25
-  for (int i = 0; i < 50; i++)
-  {
-    list.push_back(ColorPoint(Utility::getFlatRandNb(minCoords,maxCoords), Utility::getFlatRandNb(minCoords,maxCoords)));
-  }
 
-  
+  // /** Random points **/
+  // float minCoords = -130; //-50.; //-25.5;
+  // float maxCoords = 130; //50.; //25.7;
+  // // 25
+  // for (int i = 0; i < 150; i++)
+  // {
+  //   list.push_back(ColorPoint(Utility::getFlatRandNb(minCoords,maxCoords), Utility::getFlatRandNb(minCoords,maxCoords)));
+  // }
+
   if (list.size() > 0)
   {
     convexe = ConvexeHullAlgorithms::Jarvis(list);
-  }else
+  }
+  else
   {
     cout << "Aucun point n'as été ajouté" << endl;
   }
@@ -279,8 +278,8 @@ void init()
     cout << convexe.at(i) << endl;
   }
 
-  Utility::writeConvexePointsToFIle(list);
-
+  Utility::writeConvexePointsToFIle(convexe);
+  Utility::debugPoints(list);
 
   // double xO=0.,yO=0.,xI=1.,yI=0.,xJ=0.,yJ=1.;
   ColorPoint I(1., 0., 1., 0., 0., 10.);  // point I
@@ -288,37 +287,37 @@ void init()
   ColorPoint O(0., 0., 0., 0., 1., 15.);  // point O
 
   glNewList(1, GL_COMPILE_AND_EXECUTE); //liste numero 1
-    openGL(I);                            //I
-    openGL(J);                            //J
-    openGL(O);                            //O
+  openGL(I);                            //I
+  openGL(J);                            //J
+  openGL(O);                            //O
   glEndList();
 
   glNewList(2, GL_COMPILE_AND_EXECUTE);     //liste numero 2
-    trace_segment(O, I, 1.0, 0.0, 1.0, 2.0);  // on trace [OI]
-    trace_segment(O, J, 1.0, 0.50, 0.0, 2.0); // on trace [OJ]
+  trace_segment(O, I, 1.0, 0.0, 1.0, 2.0);  // on trace [OI]
+  trace_segment(O, J, 1.0, 0.50, 0.0, 2.0); // on trace [OJ]
   glEndList();
 
   // afficher les points
   glNewList(4, GL_COMPILE_AND_EXECUTE); //liste numero 4
-    if (list.size() > 0)
+  if (list.size() > 0)
+  {
+    for (int i = 0; i < list.size(); i++)
     {
-      for (int i = 0; i < list.size(); i++)
-      {
-        openGL(list[i]);
-        // cout << list[i] << endl; // affichier les point dans la console
-      }
+      openGL(list[i]);
+      // cout << list[i] << endl; // affichier les point dans la console
     }
+  }
   glEndList();
 
   // tracer les segements
-  glNewList(5, GL_COMPILE_AND_EXECUTE); //liste numero 
-    if (convexe.size() > 0)
+  glNewList(5, GL_COMPILE_AND_EXECUTE); //liste numero
+  if (convexe.size() > 0)
+  {
+    for (int i = 0; i < convexe.size() - 1; i++)
     {
-      for (int i = 0; i < convexe.size() - 1; i++)
-      {
-        trace_segment(convexe[i], convexe[i + 1], 1.0, 0.50, 0.0, 2.0);
-      }
+      trace_segment(convexe[i], convexe[i + 1], 1.0, 0.50, 0.0, 2.0);
     }
+  }
   glEndList();
 
   glNewList(6, GL_COMPILE_AND_EXECUTE); //liste numero 6
@@ -331,12 +330,9 @@ void init()
 // fonction permettant d'afficher les objets en utilisant des listes
 void affichage()
 {
-  cout << "fnc affichage appelé" << endl;
-  
   /* effacement de l'image avec la couleur de fond */
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
-
 
   glTranslatef(0.0, 0.0, dist);
   // Pour la 3D
@@ -355,4 +351,97 @@ void affichage()
   glCallList(6);
   glFlush();
   glutSwapBuffers(); // On echange les buffers
+}
+
+
+void ChoixSaisiePoint()
+{
+  int choix;
+  cout << "Choisir une option" << endl;
+  cout << "1 - Points génerés aleatoirement" << endl;
+  cout << "2 - Entrer les points a la main" << endl;
+  cin >> choix;
+
+  while ((choix != 1) && (choix != 2))
+  {
+    // si l'utilisateur entre autre chose d'un int
+    while (std::cin.fail())
+    {
+      std::cout << "**** Error (Que des nombres entiers sont acceptés) ****" << std::endl;
+      std::cin.clear();
+      std::cin.ignore(256, '\n');
+    }
+    cout << "Option invalide !!! (choisir entre 1 ou 2)" << endl;
+    cout << " votre choix: " << choix << endl;
+    cin >> choix;
+  }
+
+  switch (choix)
+  {
+  case 1:
+    initWithRandomPoints();
+    break;
+  case 2:
+    int choixPts;
+    cout << "Combien de points voulez vous saisir (> 3)" << endl;
+    cin >> choixPts;
+    // si l'utilisateur entre autre chose d'un int
+
+    while(choixPts < 3)
+    {
+      cout << "Le nombre doit etre supérieur a 3" << endl;
+      while (std::cin.fail())
+      {
+        std::cout << "**** Error: Entré invalide !! (Saisir un nombre) ****" << std::endl;
+        std::cin.clear();
+        std::cin.ignore(256, '\n');
+      }
+      cout << "Combien de points voulez vous saisir (> 3)" << endl;
+      cin >> choixPts;
+
+    }
+  
+    initWithInput(choixPts);
+    break;
+  }
+}
+
+//------------------------------
+// genere les points avec des coordonées aleatoire
+//----------------------------
+void initWithRandomPoints()
+{
+  /** Random points **/
+  float minCoords = -130;
+  float maxCoords = 130;  
+
+  for (int i = 0; i < 150; i++)
+  {
+    list.push_back(ColorPoint(Utility::getFlatRandNb(minCoords, maxCoords), Utility::getFlatRandNb(minCoords, maxCoords)));
+  }
+}
+
+//-------------------------
+// placer les point a la main
+//-------------------------
+void initWithInput(int nbPoints)
+{
+  double x, y;
+  cout << "Saisir les coordonnées de cette façon : #Point#i: x espace y" << endl;
+  cout << "- Par exemple pour saisir un point avec les coordonées x=2.3 et y=4.5 il faut faire: 2.3 4.5" << endl;
+  for (int i = 0; i < nbPoints; i++)
+  {
+    cout << "Point #" << i << ":  ";
+    cin >> x >> y;
+    // si l'utilisateur entre autre chose d'un int ou un double
+    while (std::cin.fail())
+    {
+      std::cout << "**** Error: Entré invalide !! (Saisir que des nombres entiers ou a virgule) ****" << std::endl;
+      std::cin.clear();
+      std::cin.ignore(256, '\n');
+      cout << "Point #" << i << ":  ";
+      cin >> x >> y;
+    }
+    list.push_back(ColorPoint(x, y));
+  }
 }
