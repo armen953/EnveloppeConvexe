@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 {
   srand(time(NULL)); // seed le générateur de nombre aleatoire
 
-  ChoixSaisiePoint();  // Afficher le menu
+  // ChoixSaisiePoint();  // Afficher le menu
 
 
   /* initialisation de glut et creation de la fenetre */
@@ -256,6 +256,13 @@ void init()
   // list.push_back(ColorPoint(3,4));
 
 
+
+  list.push_back(ColorPoint(1,1));
+  // list.push_back(ColorPoint(1,1));
+  // list.push_back(ColorPoint(1,1));
+  // list.push_back(ColorPoint(1,1));
+  
+
   // /** Random points **/
   // float minCoords = -130; //-50.; //-25.5;
   // float maxCoords = 130; //50.; //25.7;
@@ -264,6 +271,14 @@ void init()
   // {
   //   list.push_back(ColorPoint(Utility::getFlatRandNb(minCoords,maxCoords), Utility::getFlatRandNb(minCoords,maxCoords)));
   // }
+
+
+
+
+  // TESTER SI NB PTS < 3 EXIT
+  // QUE FAIRE SI TOUS LES POINTS SONT COLINAIRES
+  // QUE FAIRE SI TOUTS LES POINTS ONT LE MEME COORDONNE
+
 
   if (list.size() > 0)
   {
