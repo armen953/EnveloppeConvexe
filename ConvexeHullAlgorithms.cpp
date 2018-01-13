@@ -29,50 +29,65 @@ vector<ColorPoint> ConvexeHullAlgorithms::Jarvis(vector<ColorPoint> pointList)
 
   result.push_back(firstPts);
 
-  int pi = startIndex; 
+  int precIndex = startIndex; 
   int qi;
 
   do
   {
-    qi = (pi + 1) % length;
+    qi = (precIndex + 1) % length;
 
     for (int i = 0; i < length; i++)
     {
-      if (i == pi || i == qi)
+      // ne pas tester quand on doit prendre 2 fois le meme point
+      if (i == precIndex || i == qi)
       {
         continue;
       }
 
-      if (Utility::crossProduct(pointList.at(pi), pointList.at(i), pointList.at(qi)) < 0)
+      if (Utility::crossProduct(pointList.at(precIndex), pointList.at(i), pointList.at(qi)) < 0)
       {
         qi = i;
       }
-      if (Utility::crossProduct(pointList.at(pi), pointList.at(i), pointList.at(qi)) == 0) // les point sont colinéaires
+      if (Utility::crossProduct(pointList.at(precIndex), pointList.at(i), pointList.at(qi)) == 0) // les point sont colinéaires
       {
         // Pour debug
-        cout << endl;
-        cout << "Begin" << endl;
-        cout << pointList.at(pi) << endl;
-        cout << pointList.at(i) << endl;
-        cout << pointList.at(qi) << endl;
-        cout << " distance entre : " << pointList.at(pi) << " (pi) et " <<  pointList.at(i) << " (i) est de " << Utility::distance2D(pointList.at(pi),pointList.at(i)) << endl;
-        cout << " distance entre : " << pointList.at(pi) << " (pi) et " <<  pointList.at(qi) << " (qi) est de " << Utility::distance2D(pointList.at(pi),pointList.at(qi)) << endl;
-        cout << "END" << endl;
-        if (Utility::distance2D(pointList.at(pi),pointList.at(i)) > Utility::distance2D(pointList.at(pi),pointList.at(qi))) // on prend le point qui est le plus loin du point de rotation
+        // cout << endl;
+        // cout << "Begin" << endl;
+        // cout << pointList.at(precIndex) << endl;
+        // cout << pointList.at(i) << endl;
+        // cout << pointList.at(qi) << endl;
+        // cout << " distance entre : " << pointList.at(precIndex) << " (precIndex) et " <<  pointList.at(i) << " (i) est de " << Utility::distance2D(pointList.at(precIndex),pointList.at(i)) << endl;
+        // cout << " distance entre : " << pointList.at(precIndex) << " (precIndex) et " <<  pointList.at(qi) << " (qi) est de " << Utility::distance2D(pointList.at(precIndex),pointList.at(qi)) << endl;
+        // cout << "END" << endl;
+        if (Utility::distance2D(pointList.at(precIndex),pointList.at(i)) > Utility::distance2D(pointList.at(precIndex),pointList.at(qi))) // on prend le point qui est le plus loin du point de rotation
         {
           qi = i;
         }
       }
     }
-    
-    // if (pointList.at(qi) != firstPts)
-    // {
-      cout << "le point a ete ajouté : " << pointList.at(qi) << endl;
-      result.push_back(pointList.at(qi));
-    // }
-    pi = qi;
 
-  } while (pi != startIndex);
+    result.push_back(pointList.at(qi));
+
+    precIndex = qi;
+
+  } while (precIndex != startIndex);
+
+  int memeCoord=0;
+  int colli=0;
+  for (int i = 0; i < result.size()-1; i++)
+  { 
+    if(result.at(i) == result.at(i+1))
+    {
+      memeCoord++;
+    }
+  }
+
+// si tous les points ont la meme coordonées OU si tous les points sont alignés
+  if(memeCoord == result.size()-1 || (result.size()-1 <= 2)) 
+  {
+    result.clear();
+    cout << "Tous les point ont le meme coordonnée" << endl;
+  }
 
   return result;
 }

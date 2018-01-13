@@ -55,8 +55,9 @@ int main(int argc, char **argv)
 {
   srand(time(NULL)); // seed le générateur de nombre aleatoire
 
-  // ChoixSaisiePoint();  // Afficher le menu
+  remove("./convexePoints.txt");  // si present supprimer les anciens fichiers de logs
 
+  ChoixSaisiePoint();  // Afficher le menu
 
   /* initialisation de glut et creation de la fenetre */
   glutInit(&argc, argv);
@@ -257,11 +258,11 @@ void init()
 
 
 
-  list.push_back(ColorPoint(1,1));
   // list.push_back(ColorPoint(1,1));
   // list.push_back(ColorPoint(1,1));
   // list.push_back(ColorPoint(1,1));
-  
+  // list.push_back(ColorPoint(1,1));
+
 
   // /** Random points **/
   // float minCoords = -130; //-50.; //-25.5;
@@ -274,27 +275,25 @@ void init()
 
 
 
-
   // TESTER SI NB PTS < 3 EXIT
   // QUE FAIRE SI TOUS LES POINTS SONT COLINAIRES
-  // QUE FAIRE SI TOUTS LES POINTS ONT LE MEME COORDONNE
+  // QUE FAIRE SI TOUTS LES POINTS ONT LE MEME COORDONNE ex: 0 0; 0 0; 0 0; 0 0  ou encore si on a list.size() < 3
 
 
-  if (list.size() > 0)
+  if (list.size() > 2)
   {
-    convexe = ConvexeHullAlgorithms::Jarvis(list);
+    convexe = ConvexeHullAlgorithms::Jarvis(list);    
   }
   else
   {
-    cout << "Aucun point n'as été ajouté" << endl;
-  }
-  for (int i = 0; i < convexe.size(); i++)
-  {
-    cout << convexe.at(i) << endl;
+    cout << "\033[1;31m Le nombre de point ajouté est inferieur a 3 !!!! text\033[0m\n" << endl;
   }
 
-  Utility::writeConvexePointsToFIle(convexe);
-  Utility::debugPoints(list);
+  if (convexe.size() > 1)
+  {
+    Utility::writeConvexePointsToFIle(convexe);
+    Utility::debugPoints(list);
+  }
 
   // double xO=0.,yO=0.,xI=1.,yI=0.,xJ=0.,yJ=1.;
   ColorPoint I(1., 0., 1., 0., 0., 10.);  // point I
@@ -318,19 +317,18 @@ void init()
   {
     for (int i = 0; i < list.size(); i++)
     {
-      openGL(list[i]);
-      // cout << list[i] << endl; // affichier les point dans la console
+      openGL(list.at(i));
     }
   }
   glEndList();
 
   // tracer les segements
   glNewList(5, GL_COMPILE_AND_EXECUTE); //liste numero
-  if (convexe.size() > 0)
+  if (convexe.size() > 1)
   {
     for (int i = 0; i < convexe.size() - 1; i++)
     {
-      trace_segment(convexe[i], convexe[i + 1], 1.0, 0.50, 0.0, 2.0);
+      trace_segment(convexe.at(i), convexe.at(i+1), 1.0, 0.50, 0.0, 2.0);
     }
   }
   glEndList();
@@ -380,11 +378,11 @@ void ChoixSaisiePoint()
   while ((choix != 1) && (choix != 2))
   {
     // si l'utilisateur entre autre chose d'un int
-    while (std::cin.fail())
+    while (cin.fail())
     {
-      std::cout << "**** Error (Que des nombres entiers sont acceptés) ****" << std::endl;
-      std::cin.clear();
-      std::cin.ignore(256, '\n');
+      cout << "**** Error (Que des nombres entiers sont acceptés) ****" << endl;
+      cin.clear();
+      cin.ignore(256, '\n');
     }
     cout << "Option invalide !!! (choisir entre 1 ou 2)" << endl;
     cout << " votre choix: " << choix << endl;
@@ -401,21 +399,19 @@ void ChoixSaisiePoint()
     cout << "Combien de points voulez vous saisir (> 3)" << endl;
     cin >> choixPts;
     // si l'utilisateur entre autre chose d'un int
-
     while(choixPts < 3)
     {
       cout << "Le nombre doit etre supérieur a 3" << endl;
-      while (std::cin.fail())
+      while (cin.fail())
       {
-        std::cout << "**** Error: Entré invalide !! (Saisir un nombre) ****" << std::endl;
-        std::cin.clear();
-        std::cin.ignore(256, '\n');
+        cout << "**** Error: Entré invalide !! (Saisir un nombre) ****" << endl;
+        cin.clear();
+        cin.ignore(256, '\n');
       }
       cout << "Combien de points voulez vous saisir (> 3)" << endl;
       cin >> choixPts;
 
     }
-  
     initWithInput(choixPts);
     break;
   }
@@ -428,7 +424,7 @@ void initWithRandomPoints()
 {
   /** Random points **/
   float minCoords = -130;
-  float maxCoords = 130;  
+  float maxCoords = 130;
 
   for (int i = 0; i < 150; i++)
   {
@@ -449,11 +445,11 @@ void initWithInput(int nbPoints)
     cout << "Point #" << i << ":  ";
     cin >> x >> y;
     // si l'utilisateur entre autre chose d'un int ou un double
-    while (std::cin.fail())
+    while (cin.fail())
     {
-      std::cout << "**** Error: Entré invalide !! (Saisir que des nombres entiers ou a virgule) ****" << std::endl;
-      std::cin.clear();
-      std::cin.ignore(256, '\n');
+      cout << "**** Error: Entré invalide !! (Saisir que des nombres entiers ou a virgule) ****" << endl;
+      cin.clear();
+      cin.ignore(256, '\n');
       cout << "Point #" << i << ":  ";
       cin >> x >> y;
     }
