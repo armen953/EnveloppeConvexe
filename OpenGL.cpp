@@ -196,104 +196,15 @@ void trace_segment(ColorPoint p1, ColorPoint p2, double red, double green, doubl
 void init()
 {
 
-  // list.push_back(ColorPoint(5., 4.));
-  // list.push_back(ColorPoint(17., 12.));
-  // list.push_back(ColorPoint(9., 12.));
-  // list.push_back(ColorPoint(-7, 9, 3.));
-  // list.push_back(ColorPoint(11., 22.));
-  // list.push_back(ColorPoint(3., 16.));
-
-  /********* fichier 2 sous geogebra **********/
-  // list.push_back(ColorPoint(2.98, 5.89));
-  // list.push_back(ColorPoint(6.73, 2.91));
-  // list.push_back(ColorPoint(-3.05, 5.49));
-  // list.push_back(ColorPoint(-1.93, 2.33));
-  // list.push_back(ColorPoint(3, 2));
-  // list.push_back(ColorPoint(0.98, 4.22));
-  // list.push_back(ColorPoint(-4.26, 0.67));
-  // list.push_back(ColorPoint(-2.1, -2.77));
-  // list.push_back(ColorPoint(-0.32, -0.55));
-  // list.push_back(ColorPoint(1.22, 0.99));
-  // list.push_back(ColorPoint(5.94, -4.25));
-  // list.push_back(ColorPoint(7.82, -1.35));
-  // list.push_back(ColorPoint(2.68, -4.05));
-
-  /********* cas de points colinaires (fichier 6 sous geo) **********/
-  // list.push_back(ColorPoint(2.,1.));
-  // list.push_back(ColorPoint(1.,1.));
-  // list.push_back(ColorPoint(5.,3.));
-  // list.push_back(ColorPoint(4.,1.));
-  // list.push_back(ColorPoint(5.,1.));
-  // list.push_back(ColorPoint(3.,1.));
-
-  /*********  test (fichier 1 sous geo) **********/
-  // list.push_back(ColorPoint(2,0));
-  // list.push_back(ColorPoint(6,0));
-  // list.push_back(ColorPoint(3,0));
-  // list.push_back(ColorPoint(3,4));
-
-  /********* fait BUGER SANS RAISON **********/
-  // list.push_back(ColorPoint(1.,1.));
-  // list.push_back(ColorPoint(4.,1.));
-  // list.push_back(ColorPoint(3.,1.));
-  // list.push_back(ColorPoint(2.,3.));
-
-  /********* fichier 4 geogebra **********/
-  // list.push_back(ColorPoint(-1,2));
-  // list.push_back(ColorPoint(2,1));
-  // list.push_back(ColorPoint(1,0));
-  // list.push_back(ColorPoint(3,-1));
-  // list.push_back(ColorPoint(1,-1));
-  // list.push_back(ColorPoint(-1,1));
-  // list.push_back(ColorPoint(-2,0)); // a ajouter pour fichier 4B_StartXMeme geogebra
-  // list.push_back(ColorPoint(-2,-1));
-  // list.push_back(ColorPoint(-1,-2));
-  // list.push_back(ColorPoint(-1,-1));
-
-  // list.push_back(ColorPoint(2,0));
-  // list.push_back(ColorPoint(6,0));
-  // list.push_back(ColorPoint(3,0));  // prend en compte les point colinaires
-  // list.push_back(ColorPoint(2.,1.));
-  // list.push_back(ColorPoint(3,4));
-
-
-
-  // list.push_back(ColorPoint(1,1));
-  // list.push_back(ColorPoint(1,1));
-  // list.push_back(ColorPoint(1,1));
-  // list.push_back(ColorPoint(1,1));
-
-
-  // /** Random points **/
-  // float minCoords = -130; //-50.; //-25.5;
-  // float maxCoords = 130; //50.; //25.7;
-  // // 25
-  // for (int i = 0; i < 150; i++)
-  // {
-  //   list.push_back(ColorPoint(Utility::getFlatRandNb(minCoords,maxCoords), Utility::getFlatRandNb(minCoords,maxCoords)));
-  // }
-
-
-
-  // TESTER SI NB PTS < 3 EXIT
-  // QUE FAIRE SI TOUS LES POINTS SONT COLINAIRES
-  // QUE FAIRE SI TOUTS LES POINTS ONT LE MEME COORDONNE ex: 0 0; 0 0; 0 0; 0 0  ou encore si on a list.size() < 3
-
-
   if (list.size() > 2)
   {
-    convexe = ConvexeHullAlgorithms::Jarvis(list);    
+    convexe = ConvexeHullAlgorithms::Jarvis(list);   // calculer enveloppe convexe
   }
   else
   {
     cout << "\033[1;31m Le nombre de point ajouté est inferieur a 3 !!!! text\033[0m\n" << endl;
   }
-
-  if (convexe.size() > 1)
-  {
-    Utility::writeConvexePointsToFIle(convexe);
-    Utility::debugPoints(list);
-  }
+    Utility::writeConvexePointsToFIle(convexe); // saisir le resultat dans un ficher
 
   // double xO=0.,yO=0.,xI=1.,yI=0.,xJ=0.,yJ=1.;
   ColorPoint I(1., 0., 1., 0., 0., 10.);  // point I
@@ -366,7 +277,9 @@ void affichage()
   glutSwapBuffers(); // On echange les buffers
 }
 
-
+//---------------------------------
+//                Menu
+//---------------------------------
 void ChoixSaisiePoint()
 {
   int choix;
@@ -410,16 +323,15 @@ void ChoixSaisiePoint()
       }
       cout << "Combien de points voulez vous saisir (> 3)" << endl;
       cin >> choixPts;
-
     }
-    initWithInput(choixPts);
+    initWithInput(choixPts); 
     break;
   }
 }
 
-//------------------------------
+//-------------------------------------------------
 // genere les points avec des coordonées aleatoire
-//----------------------------
+//--------------------------------------------------
 void initWithRandomPoints()
 {
   /** Random points **/
@@ -432,9 +344,9 @@ void initWithRandomPoints()
   }
 }
 
-//-------------------------
+//-----------------------------
 // placer les point a la main
-//-------------------------
+//-----------------------------
 void initWithInput(int nbPoints)
 {
   double x, y;

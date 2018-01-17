@@ -34,14 +34,20 @@ void Utility::writeConvexePointsToFIle(std::vector<ColorPoint> points)
   myfile.open("convexePoints.txt");
   if(!myfile.fail())
   {
-    myfile << "Les points qui appartiennent a l'enveloppe convexe :" << std::endl;
-    for (int i = 0; i < points.size() -1; i++)
+    if(points.size() > 0)
     {
-      myfile << "#" << i << " : " << points.at(i) << std::endl;
+      myfile << "Les points qui appartiennent a l'enveloppe convexe :" << std::endl;
+      for (int i = 0; i < points.size() -1; i++)
+      {
+        myfile << "#" << i << " : " << points.at(i) << std::endl;
+      }
+    }else
+    {
+      myfile << "Erreur voir terminal pour plus d'info" << std::endl;
     }
   }else
   {
-    std::cerr << "Erreur lors de l'ouverture du fichier" << std::endl;
+    std::cerr << "Erreur lors de l'ouverture du fichier convexePoints.txt" << std::endl;
   }
   myfile.close();
 }

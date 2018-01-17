@@ -44,7 +44,7 @@ vector<ColorPoint> ConvexeHullAlgorithms::Jarvis(vector<ColorPoint> pointList)
         continue;
       }
 
-      if (Utility::crossProduct(pointList.at(precIndex), pointList.at(i), pointList.at(qi)) < 0)
+      if (Utility::crossProduct(pointList.at(precIndex), pointList.at(i), pointList.at(qi)) < 0) 
       {
         qi = i;
       }
@@ -86,7 +86,7 @@ vector<ColorPoint> ConvexeHullAlgorithms::Jarvis(vector<ColorPoint> pointList)
   if(memeCoord == result.size()-1 || (result.size()-1 <= 2)) 
   {
     result.clear();
-    cout << "Tous les point ont le meme coordonnée" << endl;
+    cout << "Tous les points ont le meme coordonnée ou sont tous alignés" << endl;
   }
 
   return result;
