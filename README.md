@@ -16,5 +16,4 @@ Après l'instalation de OpenGl il suffit exécuter le commande **make** pour com
 - [x] Point colinéaire
 - [x] Génération point aléatoire
 - [x] revoir class ConvexeHullAlgo et remplacer les methodes avec celui de utility
-- [ ] Implementer d'autres algorithmes pour calculer l'enveloppe convexe (?)
-- [ ] Rapport
+- [x] Rapport
